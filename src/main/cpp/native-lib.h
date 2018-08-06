@@ -13,7 +13,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+JNIEXPORT jint JNICALL Java_com_ws_ffmpegandroidavfilter_NativePlayer_end
+        (JNIEnv *env, jobject obj) ;
 
 JNIEXPORT jint JNICALL Java_com_ws_ffmpegandroidavfilter_NativePlayer_saveRTMP
         (JNIEnv *env, jobject obj,jstring in_filename_,jstring out_filename_);

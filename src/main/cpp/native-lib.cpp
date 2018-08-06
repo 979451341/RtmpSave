@@ -18,12 +18,18 @@ extern "C"
 #define LOGE(format, ...)  __android_log_print(ANDROID_LOG_ERROR, "(>_<)ws-----------", format, ##__VA_ARGS__)
 #define LOGI(format, ...)  __android_log_print(ANDROID_LOG_INFO,  "(^_^)ws-----------", format, ##__VA_ARGS__)
 
+static int flag=1;
 
+JNIEXPORT jint JNICALL Java_com_ws_ffmpegandroidavfilter_NativePlayer_end
+        (JNIEnv *env, jobject obj) {
+    flag=0;
+    return flag;
 
-
+}
 
 JNIEXPORT jint JNICALL Java_com_ws_ffmpegandroidavfilter_NativePlayer_saveRTMP
         (JNIEnv *env, jobject obj,jstring in_filename_,jstring out_filename_) {
+    flag=1;
     AVOutputFormat *ofmt = NULL;
     //Input AVFormatContext and Output AVFormatContext
     AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;
@@ -108,7 +114,7 @@ JNIEXPORT jint JNICALL Java_com_ws_ffmpegandroidavfilter_NativePlayer_saveRTMP
     AVBitStreamFilterContext* h264bsfc =  av_bitstream_filter_init("h264_mp4toannexb");
 #endif
 
-    while (1) {
+    while (flag) {
         AVStream *in_stream, *out_stream;
         //Get an AVPacket
         ret = av_read_frame(ifmt_ctx, &pkt);

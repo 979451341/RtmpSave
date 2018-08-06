@@ -14,4 +14,5 @@ public class NativePlayer {
 
 
     public static native int saveRTMP(String in,String out);
+    public static native int end();
 }

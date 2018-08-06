@@ -12,7 +12,7 @@ public class TwoActivity extends AppCompatActivity {
 
     String in_filename  = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
     String out_filename = "/storage/emulated/0/pauseRecordDemo/video/receive.flv";
-    Button btn;
+    Button btn_start,btn_end;
     EditText et_in,et_out;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,8 @@ public class TwoActivity extends AppCompatActivity {
 
         et_in.setText(in_filename);
         et_out.setText(out_filename);
-        btn = (Button)findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn_start = (Button)findViewById(R.id.btn_start);
+        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
@@ -34,11 +34,25 @@ public class TwoActivity extends AppCompatActivity {
                         NativePlayer.saveRTMP(et_in.getText().toString(),et_out.getText().toString());
                     }
                 }).start();
-                btn.setText("started");
+                btn_start.setText("started");
             }
 
         });
 
+        btn_end = (Button)findViewById(R.id.btn_end);
+        btn_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        NativePlayer.end();
+                    }
+                }).start();
+                btn_start.setText("start");
+            }
+
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE
